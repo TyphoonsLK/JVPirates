@@ -8,6 +8,7 @@
 
 - [x] Design- Creating assets
 - [x] Design- Character animations
+- [ ] Design- rename actios name , all chracters actions names = ['idle','walk','attack','death']
 - [ ] Design- Sounds
 - [ ] Design- Backgrounds
 - [ ] Game dev- variables,indicators
