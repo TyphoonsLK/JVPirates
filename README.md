@@ -1,7 +1,8 @@
 # JVPirates
 
-1.download the updated repo 
-2.run the `code.py` and test 
+##1.download the updated repo 
+
+##2.run the `code.py` and test 
 
 ## To-Do List
 
