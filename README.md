@@ -1,5 +1,7 @@
 # JVPirates
 
+run the `code.py` and test 
+
 ## To-Do List
 
 - [x] Design- Creating assets
