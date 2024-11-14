@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
     self.speed = 200
     self.gravity = 400
     self.jump = False
-    self.jump_height = 500
+    self.jump_height = 650
     self.attacking = False
     
     # collision

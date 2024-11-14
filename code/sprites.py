@@ -1,5 +1,6 @@
 from settings import * 
 from math import sin, cos, radians
+from random import randint
 
 class Sprite(pygame.sprite.Sprite):
   def __init__(self, pos, surf = pygame.Surface((TILE_SIZE, TILE_SIZE)), groups = None, z = Z_LAYERS['main']):
@@ -7,8 +8,7 @@ class Sprite(pygame.sprite.Sprite):
     self.image = surf
     self.rect = self.image.get_frect(topleft = pos)
     self.old_rect = self.rect.copy()
-    self.z = z
-   
+    self.z = z 
 class AnimatedSprite(Sprite):
   def __init__(self, pos, frames, groups, z = Z_LAYERS['main'], animation_speed = ANIMATION_SPEED):
     self.frames, self.frame_index = frames, 0
@@ -21,7 +21,6 @@ class AnimatedSprite(Sprite):
     
   def update(self, dt):
     self.animate(dt)
-
 class Item(AnimatedSprite):
   def __init__(self, item_type, pos, frames, groups, data):
     super().__init__(pos, frames, groups)
@@ -40,7 +39,6 @@ class Item(AnimatedSprite):
       self.data.coins += 50
     if self.item_type == 'potion':
       self.data.health += 1
-
 class ParticleEfffectSprite(AnimatedSprite):
   def __init__(self, pos, frames, groups):
     super().__init__(pos, frames, groups)
@@ -53,7 +51,6 @@ class ParticleEfffectSprite(AnimatedSprite):
       self.image = self.frames[int(self.frame_index)]
     else:
       self.kill()
-        
 class MovingSprite(AnimatedSprite):
   def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed, flip = False):
     super().__init__(start_pos, frames, groups)
@@ -98,8 +95,7 @@ class MovingSprite(AnimatedSprite):
     
     self.animate(dt)
     if self.flip:
-      self.image = pygame.transform.flip(self.image, self.reverse['x'], self.reverse['y'])
-      
+      self.image = pygame.transform.flip(self.image, self.reverse['x'], self.reverse['y'])     
 class Spike(Sprite):
   def __init__(self, pos, surf, groups, radius, speed, start_angle, end_angle, z = Z_LAYERS['main']):
     self.center = pos
@@ -129,3 +125,17 @@ class Spike(Sprite):
     y = self.center[1] + sin(radians(self.angle)) * self.radius
     x = self.center[0] + cos(radians(self.angle)) * self.radius
     self.rect.center = (x,y)
+    
+class Cloud(Sprite):
+  def __init__(self, pos, surf, groups, z = Z_LAYERS['clouds']):
+    super().__init__(pos, surf, groups, z)
+    self.speed = randint(50,120)
+    self.direction = -1
+    self.rect.midbottom = pos
+    
+  def update(self, dt):
+    self.rect.x += self.direction * self.speed * dt
+    
+    if self.rect.right <= 0:
+      self.kill() # At some point, the cloud will keep creating even if it's not visible, so to avoid that, we kill the cloud when it's out of the screen
+    
